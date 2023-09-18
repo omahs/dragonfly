@@ -66,6 +66,7 @@ cxx_test(list_family_test dfly_test_lib LABELS DFLY)
 cxx_test(set_family_test dfly_test_lib LABELS DFLY)
 cxx_test(stream_family_test dfly_test_lib LABELS DFLY)
 cxx_test(string_family_test dfly_test_lib LABELS DFLY)
+cxx_test(server_family_test dfly_test_lib LABELS DFLY)
 cxx_test(bitops_family_test dfly_test_lib LABELS DFLY)
 cxx_test(rdb_test dfly_test_lib DATA testdata/empty.rdb testdata/redis6_small.rdb
          testdata/redis6_stream.rdb testdata/hll.rdb testdata/redis7_small.rdb LABELS DFLY)
