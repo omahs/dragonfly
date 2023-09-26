@@ -1072,7 +1072,10 @@ void Service::DispatchManyCommands(absl::Span<CmdArgList> args_list,
     const bool is_multi =
         dfly_cntx->conn_state.exec_info.IsCollecting() || CO::IsTransKind(ArgS(args, 0));
 
-    if (!is_multi && cid != nullptr) {
+    // Don't squash when there is a CLIENT PAUSE going on.
+    const bool is_pause = dfly::ServerState::tlocal()->IsPaused();
+
+    if (!is_multi && cid != nullptr && !is_pause) {
       stored_cmds.reserve(args_list.size());
       stored_cmds.emplace_back(cid, tail_args);
       continue;
