@@ -26,6 +26,7 @@ LUALIB_API int(luaopen_cjson)(lua_State* L);
 LUALIB_API int(luaopen_struct)(lua_State* L);
 LUALIB_API int(luaopen_cmsgpack)(lua_State* L);
 LUALIB_API int(luaopen_bit)(lua_State* L);
+LUALIB_API const char* lua_pushlongstring(lua_State* L, const char* s, size_t len);
 }
 
 #include <absl/strings/str_format.h>
@@ -203,7 +204,7 @@ optional<int> FetchKey(lua_State* lua, const char* key) {
 void SetGlobalArrayInternal(lua_State* lua, const char* name, MutSliceSpan args) {
   lua_createtable(lua, args.size(), 0);
   for (size_t j = 0; j < args.size(); j++) {
-    lua_pushlstring(lua, args[j].data(), args[j].size());
+    lua_pushlongstring(lua, args[j].data(), args[j].size());
     lua_rawseti(lua, -2, j + 1);
   }
   lua_setglobal(lua, name);

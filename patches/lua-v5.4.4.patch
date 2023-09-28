@@ -1,3 +1,25 @@
+diff --git a/lapi.c b/lapi.c
+index 332e97d1..deb638a4 100644
+--- a/lapi.c
++++ b/lapi.c
+@@ -534,6 +534,17 @@ LUA_API const char *lua_pushlstring (lua_State *L, const char *s, size_t len) {
+   return getstr(ts);
+ }
+ 
++LUA_API const char *lua_pushlongstring (lua_State *L, const char *s, size_t len) {
++  TString *ts;
++  lua_lock(L);
++  ts = luaS_createlngstrobj(L, len);
++  memcpy(getstr(ts), s, len * sizeof(char));
++  setsvalue2s(L, L->top, ts);
++  api_incr_top(L);
++  luaC_checkGC(L);
++  lua_unlock(L);
++  return getstr(ts);
++}
+ 
+ LUA_API const char *lua_pushstring (lua_State *L, const char *s) {
+   lua_lock(L);
 diff --git a/luaconf.h b/luaconf.h
 index d42d14b7..75647e72 100644
 --- a/luaconf.h
